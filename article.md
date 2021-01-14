@@ -13,6 +13,8 @@ process. This triggered Ygritte to call out, "You know nothing, Jon Snow"
 several times. Soon enough, Jon learned how to deal with the Wildings,
 he earned their respect and trust, and they followed him as a leader.
 
+![Jon Snow](https://media.giphy.com/media/NCTbhL8AG2s8g/giphy.gif)
+
 I find this analogy to fit people starting to work with OpenStack.
 It feels very overwhelming in the beginning, but you can build on
 your skills and experience once you get familiar with what project
