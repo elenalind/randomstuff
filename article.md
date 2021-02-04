@@ -40,8 +40,8 @@ and fix it.
 I started working with OpenStack from its Mitaka release. My first
 role was as a support engineer and, I helped telecom operators around
 the globe fix problems in their OpenStack deployments. Looking back,
-I can draw the line, and I can tell you that once-in-a-blue-moon
-rarely I stumbled over bugs in OpenStack. Maybe the reason for that
+I can draw the line, and I can tell you that once in a blue moon
+I stumbled over bugs in OpenStack. Maybe the reason for that
 was that the Mitaka release reached an acceptable maturity level.
 Another reason could be the fine-tooth combing of OpenStack services
 through all sorts of testing like functional testing, system testing,
