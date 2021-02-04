@@ -177,7 +177,7 @@ VM or there is some misconfiguration in `/etc/fstab`.
 
 We need to access the VM, possibly by booting in single mode, and
 correct `/etc/fstab` by removing the offending line.
-Some months ago, someone added a line to `/etc/fstab` to mount shared
+Some months ago, someone added a line to `/etc/fstab` to mount a network shared
 device and back up files to a remote destination, which does not
 exist anymore.
 
