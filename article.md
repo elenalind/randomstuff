@@ -200,35 +200,14 @@ How are they spread across computes? Here is an example of how to
 filter for the computes where the VMs are running, assuming all VMs
 belong to the same `Heat stack`. List resources filtered on `Nova::Server`,
 pipe the output to `xargs` and extract the `hypervisor_hostname` to
-get the compute names.
-Alternatively, you can loop through a list of the VMs.
-Ask for `/var/log/kernel.log`, `dmesg`, `/var/log/syslog` logs from the
-computes hosting the VMs that cannot access their block devices.
-These logs might show why the devices cannot be accessed.
-
-```
-openstack stack resource list --nested-depth 10  $STACK_UUID \
-  --filter type=OS::Nova::Server \
-  -c physical_resource_id -f value | \
-  xargs -n1 openstack server show \
-  -c hypervisor_hostname
-```
-
-```
-for i in  $(cat list) ; do openstack server show \
--c hypervisor_hostname$; done
-```
-
-```
-/var/log/dmesg
-/var/log/kernel.log
-/var/log/syslog
-```
+get the compute names. Is there a pattern here? Do the problematic VMs
+belong to the same computes?
 
 If the VMs cannot access their block devices on the storage
 backend, it might be a networking problem.
-Look for log entries concerning the storage network interfaces.
-The dmesg log show several entries like this one
+Look for log entries concerning the storage network interfaces
+on the computes hosting the VMs in trouble.
+The `dmesg` log show several entries like this one
 
 ```
 NETDEV WATCHDOG: eth4 (i40e): transmit queue 2 timed out
@@ -244,7 +223,7 @@ ip link set up eth4
 
 Apply the same fix for the rest of the computes.
 On the computes where we have slow access to storage, reset the
-problematic interface.
+problematic interface, based on findings in the `dmesg` log.
 
 We fixed the problem reported by the customer, but we do not know yet
 what caused it. It is important we continue the investigation otherwise,
@@ -293,15 +272,19 @@ from the operating system kernel to processes running in user space,
 you want this for higher performance.)
 All 4 of them share the same bus, look at the PCI addresses.
 
-The network card looks like this:
-(from here https://www.servethehome.com/3rd-party-intel-x710-da4-quad-10gbe-nic-review/ ).
+The network card looks like [this](https://www.servethehome.com/3rd-party-intel-x710-da4-quad-10gbe-nic-review/).
 So we have network interfaces controlled by the kernel driver and
 network interfaces controlled by the DPDK driver, on the same
 physical card.
-Step 2. Establish a few hypotheses of a possible cause
-The problem showed up on the computes having these NIC installed.
+The problem showed up on the computes having these NICs installed.
 We assume it is related to these NICs.
 
+We can run `iperf` on the NICs with ports controlled by multiple drivers
+and observe:
+* packet drops on the ports controlled by the kernel driver, and lower
+  TCP throughput, or
+* complete traffic loss due to "tx hang" on the ports controlled by
+  the kernel driver.
 
 ```
 $ iperf -c 192.168.122.111 
@@ -314,38 +297,25 @@ TCP window size:  586 KByte (default)
 [  3]  0.0-10.0 sec  8.43 GBytes  9.4 Gbits/sec
 ```
 
-We ran iperf on the NICs with ports controlled by multiple drivers
-and observed:
-* packet drops on the ports controlled by the kernel driver, and lower
-  TCP throughput.
-* complete traffic loss due to "tx hang" on the ports controlled by
-  the kernel driver.
-
-
-The manufacturer provided a fix:
-* [dpdk-dev,v4,4/4] net/i40e: fix interrupt conflict when using multi-driver
-* [dpdk-dev,v4,3/4] net/i40e: fix multiple driver support issue
-
-We raised a bug report towards the manufacturer of the network card.
-Later, the manufacturer provided a patch that solved the problem.
+We raised bug reports towards the manufacturer of the network card.
+Later, the manufacturer provided patches that solved the problem.
 https://dpdk.org/dev/patchwork/patch/34947/
 https://dpdk.org/dev/patchwork/patch/34948/
 
-As you can imagine, documentation in this specific case is of crucial
-importance. While in the previous cases you might find help using
-internet search engines, this is a problem specific to the customer
-OpenStack deployment using a particular NIC card.
+Proper documentation is very important! You will document the problem and
+its solution, but it can be useful to document the steps you took
+to find it out, the tools and commands you used.
 
-Besides properly recording this problem with its solution in the
-company's internal tools, it would be nice to share the problem
+Besides properly recording this problem with its solution in your
+company's (most probably internal) tools, it would be nice to share the problem
 on the internet because it might help someone else.
-Write it on your blog, tweet about it, or record a video and upload it
-on youtube.
+Write about it on your blog, tweet about it, or record a video and upload it
+to youtube.
 
 There are many problem-solving strategies and methods. I wish I could
-state that I found the three-steps approach that solves any OpenStack
-problem, but there is no silver bullet. What can help OpenStack
-troubleshooting efficient is to ask the right questions to help you
+state that I found the few-steps approach that solves any OpenStack
+problem, but there is no silver bullet. What can help troubleshooting
+OpenStack is to ask the right questions to help you
 understand and define the problem, to establish and test a few
 hypotheses of a possible cause and narrow down where the problem
 is located. Then, once a fix is available, to prioritize properly
