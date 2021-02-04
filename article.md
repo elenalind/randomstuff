@@ -74,7 +74,7 @@ VM A to VM B on port 1521 over TCP, but ping between the two
 hosts is working. They mentioned the problem must be in Neutron,
 but they are not sure what Neutron logs they should check.
 
-As a first step, I must get a better understanding of the problem.
+As a first step, I must understand the problem better.
 It's easy to fall for the confirmation bias and ask the customer
 for Neutron configuration printouts and logs.
 The customer might be sitting in a different time zone, and email
@@ -153,7 +153,7 @@ Solve the problem
 We will now look into a support ticket where a customer says
 they rebooted one out of three OpenStack controllers and lost access
 to it. In this case, the OpenStack services are running inside three
-different VMs and thus, we have three virtual OpenStack controllers.
+different VMs, and thus, we have three virtual OpenStack controllers.
 
 We should avoid asking questions like "What did you do, what did
 you change?" which renders an interlocutor to defense mode. Such
@@ -185,7 +185,7 @@ Documentation is again very important. Besides properly documenting
 the information exchanged with the customer, you can write a knowledge
 object that explains how to connect to a OpenStack controller VM
 when the VM won't boot, and it is stuck looking for block devices
-that do no exist anymore.
+that do not exist anymore.
 
 Document the problem
 --------------------
@@ -225,7 +225,7 @@ Apply the same fix for the rest of the computes.
 On the computes where we have slow access to storage, reset the
 problematic interface, based on findings in the `dmesg` log.
 
-We fixed the problem reported by the customer, but we do not know yet
+We fixed the customer's problem, but we do not know yet
 what caused it. It is important we continue the investigation otherwise,
 the problem might surface again.
 
