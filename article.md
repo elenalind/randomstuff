@@ -303,8 +303,8 @@ https://dpdk.org/dev/patchwork/patch/34947/
 https://dpdk.org/dev/patchwork/patch/34948/
 
 Proper documentation is very important! You will document the problem and
-its solution, but it can be useful to document the steps you took
-to find it out, the tools and commands you used.
+its solution, but it can be useful to write down the steps you took
+to figure it out, the tools and commands you used.
 
 Besides properly recording this problem with its solution in your
 company's (most probably internal) tools, it would be nice to share the problem
@@ -313,7 +313,7 @@ Write about it on your blog, tweet about it, or record a video and upload it
 to youtube.
 
 There are many problem-solving strategies and methods. I wish I could
-state that I found the few-steps approach that solves any OpenStack
+state that I found the few-step approach that solves any OpenStack
 problem, but there is no silver bullet. What can help troubleshooting
 OpenStack is to ask the right questions to help you
 understand and define the problem, to establish and test a few
