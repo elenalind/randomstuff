@@ -136,7 +136,7 @@ It often happens that the cause of a problem is something simple that
 was overlooked, like a service not running,  a service that
 keeps restarting, or the VM where the service should be running is down.
 In her talk about [troubleshooting Neutron](https://www.youtube.com/watch?v=aNA8Pvewu2M&t=242),
-Rossella Sblendido mentions just that.
+[Rossella Sblendido](https://twitter.com/rossella_s_) mentions just that.
 
 It's worth to ask for printouts that confirm the problem description.
 It might result in solving a problem in the definition phase.
