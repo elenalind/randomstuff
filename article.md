@@ -198,7 +198,7 @@ part of VMs experience no problems whatsoever.
 Start with the VMs that cannot access the block devices at all.
 How are they spread across computes? Here is an example of how to
 filter for the computes where the VMs are running, assuming all VMs
-belong to the same `Heat stack`. List resources filtered on `Nova::Server`,
+belong to the same Heat stack. List resources filtered on `Nova::Server`,
 pipe the output to `xargs` and extract the `hypervisor_hostname` to
 get the compute names. Is there a pattern here? Do the problematic VMs
 belong to the same computes?
