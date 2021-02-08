@@ -38,7 +38,7 @@ one needs to employ diligent sleuthing to find what the problem is
 and fix it.
 
 I started working with OpenStack from its Mitaka release. My first
-role was as a support engineer and, I helped telecom operators around
+role was as a support engineer and I helped telecom operators around
 the globe fix problems in their OpenStack deployments. Looking back,
 I can draw the line, and I can tell you that once in a blue moon
 I stumbled over bugs in OpenStack. Maybe the reason for that
